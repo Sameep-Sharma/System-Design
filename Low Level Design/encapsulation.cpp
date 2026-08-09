@@ -4,24 +4,15 @@ using namespace std;
 
 //real life car
 
-class Car{
-  public:
-    virtual void startEngine() = 0; 
-    virtual void shiftGear(int gear) = 0;
-    virtual void accelerate() = 0;
-    virtual void brake() = 0;
-    virtual void stopEngine() = 0;
-    virtual ~Car(){} //destructor
-};
-
-
-class SportsCar : public Car{
-  public:
+class SportsCar {
+  private:
     string brand;
     string model;
     bool isEngineOn;
     int currentSpeed;
     int currentGear;
+
+  public:
 
     // Constructor
     SportsCar(string b, string m)
@@ -32,9 +23,16 @@ class SportsCar : public Car{
       currentGear(0) {
 }
 
+  //but  we are allowing to see the speed and gear 
+  //we will use getter and setter methods to access and modify private members of the class
+
+  int getCurrentSpeed() {
+      return currentSpeed;
+    }
+  
     void startEngine(){
         isEngineOn = true;
-        cout <<brand<<""<<model<<""<< "SportsCar engine started." << endl;
+        cout <<brand<<" "<<model<<" "<< "SportsCar engine started." << endl;
     }
     void shiftGear(int gear){
       if(!isEngineOn){
@@ -70,15 +68,17 @@ class SportsCar : public Car{
 };
 
 int main() {
-
-  Car* myCar = new SportsCar("Ferrari", "488");
+SportsCar* myCar = new SportsCar("Ferrari", "488");
   myCar->startEngine();
   myCar->shiftGear(1);
   myCar->accelerate();
   myCar->shiftGear(2);
-  myCar->accelerate();
-  myCar->brake();
+  myCar->accelerate(); myCar->brake();
   myCar->stopEngine();
+  cout << "Current speed: " << myCar->getCurrentSpeed() << " km/h" << endl;
+  //setting arbitrary values to speed
+  // myCar->currentSpeed = 100; //this should not be allowed as it breaks encapsulation. We should not be able to set the speed directly from outside the class.
+
   delete myCar;
 }
 
